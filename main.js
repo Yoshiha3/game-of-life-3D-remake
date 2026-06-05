@@ -11,6 +11,8 @@ class Engine {
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.screenWidth, this.screenHeight);
     document.body.appendChild( this.renderer.domElement );
+
+    this.blocks = new Blocks(this.scene, 10, 10, 10);
   }
 
   render() {
@@ -18,16 +20,50 @@ class Engine {
   }
 }
 
+class Blocks {
+  constructor(scene, width, height, depth) {
+    this.blockSize = 1;
+    this.scene = scene;
+    this.width = width;
+    this.height = height;
+    // idを格納する3次元配列
+    this.blockIds = new Array(this.width).fill(null).map(() => new Array(this.height).fill(null).map(() => new Array(this.depth).fill(0)));
+    // meshを格納する3次元配列
+    this.blockMeshes = new Array(this.width).fill(null).map(() => new Array(this.height).fill(null).map(() => new Array(this.depth).fill(null)));
+
+    this.blockTypes = {
+      1: {
+        geometry: new THREE.BoxGeometry(this.blockSize, this.blockSize, this.blockSize),
+        material: new THREE.MeshStandardMaterial({color: 0xffffff})
+      }
+    }
+  }
+
+  setBlock(id, x, y, z) {
+    this.blockIds[x][y][z] = id;
+
+    const blockType = this.blockTypes[id]
+    const mesh = new THREE.Mesh(blockType.geometry, blockType.material);
+    mesh.position.set(
+      this.blockSize * x,
+      this.blockSize * y,
+      this.blockSize * z
+    );
+    this.scene.add(mesh);
+  }
+}
+
 const engine = new Engine();
 
-engine.camera.position.set(1, 0.5, 1);
+engine.camera.position.set(2, 2, 2);
 engine.camera.lookAt(0, 0, 0);
 
-const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-const material = new THREE.MeshNormalMaterial();
-const mesh = new THREE.Mesh( geometry, material );
-engine.scene.add(mesh);
+engine.blocks.setBlock(1, 0, 0, 0);
 
+// 仮でライトを追加
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+directionalLight.position.set(1, 0.5, 0.1)
+engine.scene.add(directionalLight);
 
 
 engine.render();
