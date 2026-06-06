@@ -54,7 +54,7 @@ class Blocks {
       return;
     }
 
-    if(id === this.getBlockId(x, y, z)) return;
+    if(id === this.blockIds[x][y][z]) return;
 
     const oldMesh = this.blockMeshes[x][y][z];
     if(oldMesh) {
@@ -76,10 +76,6 @@ class Blocks {
     this.blockMeshes[x][y][z] = mesh;
 
     this.scene.add(mesh);
-  }
-
-  getBlockId(x, y, z) {
-    return this.blockIds[x][y][z];
   }
 }
 
