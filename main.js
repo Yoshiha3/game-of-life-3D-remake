@@ -40,7 +40,20 @@ class Blocks {
     }
   }
 
+  isInField(x, y, z) {
+    return (
+      0 <= x && x < this.width &&
+      0 <= y && y < this.height &&
+      0 <= z && z < this.depth
+    );
+  }
+
   setBlock(id, x, y, z) {
+    if(!this.isInField(x, y, z)) {
+      console.error(`領域外にブロックを設置できません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+
     if(id === this.getBlockId(x, y, z)) return;
 
     const oldMesh = this.blockMeshes[x][y][z];
