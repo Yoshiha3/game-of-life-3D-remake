@@ -50,6 +50,8 @@ class Blocks {
       this.blockSize * y,
       this.blockSize * z
     );
+    this.blockMeshes[x][y][z] = mesh;
+
     this.scene.add(mesh);
   }
 
