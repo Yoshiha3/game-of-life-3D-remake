@@ -26,6 +26,7 @@ class Blocks {
     this.scene = scene;
     this.width = width;
     this.height = height;
+    this.depth = depth;
     // idを格納する3次元配列
     this.blockIds = new Array(this.width).fill(null).map(() => new Array(this.height).fill(null).map(() => new Array(this.depth).fill(0)));
     // meshを格納する3次元配列
