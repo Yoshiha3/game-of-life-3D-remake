@@ -41,7 +41,16 @@ class Blocks {
 
   setBlock(id, x, y, z) {
     if(id === this.getBlockId(x, y, z)) return;
+
+    const oldMesh = this.blockMeshes[x][y][z];
+    if(oldMesh) {
+      oldMesh.removeFromParent();
+      this.blockMeshes[x][y][z] = null;
+    }
+
     this.blockIds[x][y][z] = id;
+
+    if(id === 0) return; // id:0は空気
 
     const blockType = this.blockTypes[id];
     const mesh = new THREE.Mesh(blockType.geometry, blockType.material);
