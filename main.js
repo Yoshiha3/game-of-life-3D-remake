@@ -40,9 +40,10 @@ class Blocks {
   }
 
   setBlock(id, x, y, z) {
+    if(id === this.getBlockId(x, y, z)) return;
     this.blockIds[x][y][z] = id;
 
-    const blockType = this.blockTypes[id]
+    const blockType = this.blockTypes[id];
     const mesh = new THREE.Mesh(blockType.geometry, blockType.material);
     mesh.position.set(
       this.blockSize * x,
@@ -50,6 +51,10 @@ class Blocks {
       this.blockSize * z
     );
     this.scene.add(mesh);
+  }
+
+  getBlockId(x, y, z) {
+    return this.blockIds[x][y][z];
   }
 }
 
