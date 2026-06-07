@@ -1,26 +1,6 @@
 import * as THREE from 'three';
 
-export default class Engine {
-  constructor(width, height, depth) {
-    this.screenWidth = window.innerWidth;
-    this.screenHeight = window.innerHeight;
-    this.cameraController = new CameraController(this.screenWidth, this.screenHeight);
-
-    this.scene = new THREE.Scene();
-
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setSize(this.screenWidth, this.screenHeight);
-    document.body.appendChild( this.renderer.domElement );
-
-    this.blocks = new Blocks(this.scene, width, height, depth);
-  }
-
-  render() {
-    this.renderer.render(this.scene, this.cameraController.getCamera());
-  }
-}
-
-class Blocks {
+export default class Blocks {
   constructor(scene, width, height, depth) {
     this.blockSize = 1;
     this.scene = scene;
@@ -86,42 +66,5 @@ class Blocks {
     this.blockMeshes[x][y][z] = mesh;
 
     this.scene.add(mesh);
-  }
-}
-
-class CameraController {
-  constructor(screenWidth, screenHeight) {
-    this.centerPosition = new THREE.Vector3(0, 0, 0);
-    this.cameraPositionSpherical = new THREE.Spherical(8, 0, 0);
-    this.camera = new THREE.PerspectiveCamera( 70, screenWidth / screenHeight, 0.01, 1000 );
-
-    this.updateCamera();
-  }
-
-  setRadius(radius) {
-    this.cameraPositionSpherical.radius = radius;
-  }
-
-  setPhi(phi) {
-    this.cameraPositionSpherical.phi = phi;
-  }
-
-  setTheta(theta) {
-    this.cameraPositionSpherical.theta = theta;
-  }
-
-  setCenter(x, y, z) {
-    this.centerPosition.set(x, y, z);
-  }
-
-  updateCamera() {
-    const camera = this.getCamera();
-    camera.position.setFromSpherical(this.cameraPositionSpherical);
-    camera.position.add(this.centerPosition);
-    camera.lookAt(this.centerPosition);
-  }
-
-  getCamera() {
-    return this.camera;
   }
 }
