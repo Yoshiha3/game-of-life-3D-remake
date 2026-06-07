@@ -4,7 +4,7 @@ export default class Engine {
   constructor(width, height, depth) {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera( 70, this.screenWidth / this.screenHeight, 0.01, 10 );
+    this.cameraController = new CameraController(this.screenWidth, this.screenHeight);
 
     this.scene = new THREE.Scene();
 
@@ -16,7 +16,7 @@ export default class Engine {
   }
 
   render() {
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.cameraController.getCamera());
   }
 }
 
@@ -76,5 +76,38 @@ class Blocks {
     this.blockMeshes[x][y][z] = mesh;
 
     this.scene.add(mesh);
+  }
+}
+
+class CameraController {
+  constructor(screenWidth, screenHeight) {
+    this.centerPosition = new THREE.Vector3(0, 0, 0);
+    this.cameraPositionSpherical = new THREE.Spherical(8, 0, 0);
+    this.camera = new THREE.PerspectiveCamera( 70, screenWidth / screenHeight, 0.01, 10 );
+
+    this.updateCamera();
+  }
+
+  setPhi(phi) {
+    this.cameraPositionSpherical.phi = phi;
+  }
+
+  setTheta(theta) {
+    this.cameraPositionSpherical.theta = theta;
+  }
+
+  setCenter(x, y, z) {
+    this.centerPosition.set(x, y, z);
+  }
+
+  updateCamera() {
+    const camera = this.getCamera();
+    camera.position.setFromSpherical(this.cameraPositionSpherical);
+    camera.position.add(this.centerPosition);
+    camera.lookAt(this.centerPosition);
+  }
+
+  getCamera() {
+    return this.camera;
   }
 }

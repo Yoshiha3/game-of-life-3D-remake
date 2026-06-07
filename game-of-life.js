@@ -12,8 +12,9 @@ export default class GameOfLife {
     this.directionalLight.position.set(-0.5, 0.2, -1);
     this.engine.scene.add(this.directionalLight);
 
-    this.engine.camera.position.set(-2, 2, -2);
-    this.engine.camera.lookAt(0, 0, 0);
+    this.engine.cameraController.setPhi(Math.PI / 4);
+    this.engine.cameraController.setTheta(Math.PI * 5 / 4);
+    this.engine.cameraController.updateCamera();
   }
 
   render() {
