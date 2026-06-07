@@ -93,9 +93,13 @@ class CameraController {
   constructor(screenWidth, screenHeight) {
     this.centerPosition = new THREE.Vector3(0, 0, 0);
     this.cameraPositionSpherical = new THREE.Spherical(8, 0, 0);
-    this.camera = new THREE.PerspectiveCamera( 70, screenWidth / screenHeight, 0.01, 10 );
+    this.camera = new THREE.PerspectiveCamera( 70, screenWidth / screenHeight, 0.01, 1000 );
 
     this.updateCamera();
+  }
+
+  setRadius(radius) {
+    this.cameraPositionSpherical.radius = radius;
   }
 
   setPhi(phi) {
