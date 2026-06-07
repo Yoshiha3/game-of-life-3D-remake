@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export default class Engine {
-  constructor() {
+  constructor(width, height, depth) {
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
     this.camera = new THREE.PerspectiveCamera( 70, this.screenWidth / this.screenHeight, 0.01, 10 );
@@ -12,7 +12,7 @@ export default class Engine {
     this.renderer.setSize(this.screenWidth, this.screenHeight);
     document.body.appendChild( this.renderer.domElement );
 
-    this.blocks = new Blocks(this.scene, 10, 10, 10);
+    this.blocks = new Blocks(this.scene, width, height, depth);
   }
 
   render() {

@@ -2,8 +2,11 @@ import * as THREE from 'three';
 import Engine from './engine.js';
 
 export default class GameOfLife {
-  constructor() {
-    this.engine = new Engine();
+  constructor(width, height, depth) {
+    this.width = width;
+    this.height = height;
+    this.depth = depth;
+    this.engine = new Engine(this.width, this.height, this.depth);
 
     this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
     this.directionalLight.position.set(-0.5, 0.2, -1);
