@@ -88,6 +88,10 @@ class CameraController {
     this.updateCamera();
   }
 
+  setRadius(radius) {
+    this.cameraPositionSpherical.radius = radius;
+  }
+
   setPhi(phi) {
     this.cameraPositionSpherical.phi = phi;
   }
