@@ -15,6 +15,8 @@ export default class GameOfLife {
     this.engine.cameraController.setPhi(Math.PI / 4);
     this.engine.cameraController.setTheta(Math.PI * 5 / 4);
     this.engine.cameraController.updateCamera();
+
+    this.engine.blocks.randomize(0.2);
   }
 
   render() {

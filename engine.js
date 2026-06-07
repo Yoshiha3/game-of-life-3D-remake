@@ -40,6 +40,16 @@ class Blocks {
     }
   }
 
+  randomize(rate) {
+    for(let x = 0; x < this.width; x++) {
+      for(let y = 0; y < this.height; y++) {
+        for(let z = 0; z < this.depth; z++) {
+          if(Math.random() < rate) this.setBlock(1, x, y, z);
+        }
+      }
+    }
+  }
+
   isInField(x, y, z) {
     return (
       0 <= x && x < this.width &&
