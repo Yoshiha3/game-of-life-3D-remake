@@ -8,9 +8,9 @@ export default class Blocks {
     this.height = height;
     this.depth = depth;
     // idを格納する3次元配列
-    this.blockIds = new Array(this.width).fill(null).map(() => new Array(this.height).fill(null).map(() => new Array(this.depth).fill(0)));
+    this.blockIds = new Grid3D("ブロックID", this.width, this.height, this.depth);
     // meshを格納する3次元配列
-    this.blockMeshes = new Array(this.width).fill(null).map(() => new Array(this.height).fill(null).map(() => new Array(this.depth).fill(null)));
+    this.blockMeshes = new Grid3D("ブロックメッシュ", this.width, this.height, this.depth, null);
 
     this.blockTypes = {
       1: {
@@ -18,10 +18,6 @@ export default class Blocks {
         material: new THREE.MeshStandardMaterial({color: 0xffffff})
       }
     }
-  }
-
-  cloneBlockIds() {
-    return structuredClone(this.blockIds);
   }
 
   randomize(rate) {
@@ -48,15 +44,15 @@ export default class Blocks {
       return;
     }
 
-    if(id === this.getBlockId(x, y, z)) return;
+    if(id === this.blockIds.getCell(x, y, z)) return;
 
-    const oldMesh = this.getBlockMesh(x, y, z);
+    const oldMesh = this.blockMeshes.getCell(x, y, z);
     if(oldMesh) {
       oldMesh.removeFromParent();
-      this.#setBlockMesh(null, x, y, z);
+      this.blockMeshes.setCell(null, x, y, z);
     }
 
-    this.#setBlockId(id, x, y, z);
+    this.blockIds.setCell(id, x, y, z);
 
     if(id === 0) return; // id:0は空気
 
@@ -67,41 +63,9 @@ export default class Blocks {
       this.blockSize * y,
       this.blockSize * z
     );
-    this.#setBlockMesh(mesh, x, y, z);
+    this.blockMeshes.setCell(mesh, x, y, z);
 
     this.scene.add(mesh);
-  }
-
-  #setBlockId(id, x, y, z) {
-    if(!this.isInField(x, y, z)) {
-      console.error(`領域外にブロックidをセットできません(x: ${x}, y: ${y}, z: ${z})`);
-      return;
-    }
-    this.blockIds[x][y][z] = id;
-  }
-
-  #setBlockMesh(mesh, x, y, z) {
-    if(!this.isInField(x, y, z)) {
-      console.error(`領域外にブロックメッシュをセットできません(x: ${x}, y: ${y}, z: ${z})`);
-      return;
-    }
-    this.blockMeshes[x][y][z] = mesh;
-  }
-
-  getBlockId(x, y, z) {
-    if(!this.isInField(x, y, z)) {
-      console.error(`領域外のブロックidを取得できません(x: ${x}, y: ${y}, z: ${z})`);
-      return;
-    }
-    return this.blockIds[x][y][z];
-  }
-
-  getBlockMesh(x, y, z) {
-    if(!this.isInField(x, y, z)) {
-      console.error(`領域外のブロックメッシュを取得できません(x: ${x}, y: ${y}, z: ${z})`);
-      return;
-    }
-    return this.blockMeshes[x][y][z];
   }
 }
 
