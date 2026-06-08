@@ -8,9 +8,7 @@ export default class Blocks {
   #blockTypes;
   constructor(scene, width, height, depth) {
     this.#scene = scene;
-    // idを格納する3次元配列
     this.#blockIds = new Grid3D("ブロックID", width, height, depth);
-    // meshを格納する3次元配列
     this.#blockMeshes = new Grid3D("ブロックメッシュ", width, height, depth, null);
 
     this.#blockTypes = {
