@@ -31,11 +31,7 @@ export default class Blocks {
   }
 
   isInField(x, y, z) {
-    return (
-      0 <= x && x < this.width &&
-      0 <= y && y < this.height &&
-      0 <= z && z < this.depth
-    );
+    return this.blockIds.isInGrid(x, y, z);
   }
 
   setBlock(id, x, y, z) {
