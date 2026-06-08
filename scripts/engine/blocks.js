@@ -20,6 +20,10 @@ export default class Blocks {
     }
   }
 
+  cloneBlockIds() {
+    return structuredClone(this.blockIds);
+  }
+
   randomize(rate) {
     for(let x = 0; x < this.width; x++) {
       for(let y = 0; y < this.height; y++) {
