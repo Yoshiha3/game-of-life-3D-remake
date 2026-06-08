@@ -44,15 +44,15 @@ export default class Blocks {
       return;
     }
 
-    if(id === this.blockIds[x][y][z]) return;
+    if(id === this.getBlockId(x, y, z)) return;
 
-    const oldMesh = this.blockMeshes[x][y][z];
+    const oldMesh = this.getBlockMesh(x, y, z);
     if(oldMesh) {
       oldMesh.removeFromParent();
-      this.blockMeshes[x][y][z] = null;
+      this.#setBlockMesh(null, x, y, z);
     }
 
-    this.blockIds[x][y][z] = id;
+    this.#setBlockId(id, x, y, z);
 
     if(id === 0) return; // id:0は空気
 
@@ -63,8 +63,40 @@ export default class Blocks {
       this.blockSize * y,
       this.blockSize * z
     );
-    this.blockMeshes[x][y][z] = mesh;
+    this.#setBlockMesh(mesh, x, y, z);
 
     this.scene.add(mesh);
+  }
+
+  #setBlockId(id, x, y, z) {
+    if(!this.isInField(x, y, z)) {
+      console.error(`領域外にブロックidをセットできません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    this.blockIds[x][y][z] = id;
+  }
+
+  #setBlockMesh(mesh, x, y, z) {
+    if(!this.isInField(x, y, z)) {
+      console.error(`領域外にブロックメッシュをセットできません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    this.blockMeshes[x][y][z] = mesh;
+  }
+
+  getBlockId(x, y, z) {
+    if(!this.isInField(x, y, z)) {
+      console.error(`領域外のブロックidを取得できません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    return this.blockIds[x][y][z];
+  }
+
+  getBlockMesh(x, y, z) {
+    if(!this.isInField(x, y, z)) {
+      console.error(`領域外のブロックメッシュを取得できません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    return this.blockMeshes[x][y][z];
   }
 }
