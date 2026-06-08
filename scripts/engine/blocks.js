@@ -104,3 +104,46 @@ export default class Blocks {
     return this.blockMeshes[x][y][z];
   }
 }
+
+class Grid3D {
+  #dataName;
+  #width;
+  #height;
+  #depth;
+  #grid;
+  constructor(dataName, width, height, depth, defaultValue = 0) {
+    this.#dataName = dataName;
+    this.#width = width;
+    this.#height = height;
+    this.#depth = depth;
+    this.#grid = Array.from({length: this.#width}, () =>
+      Array.from({length: this.#height}, () => 
+        Array.from({length: this.#depth}, () => defaultValue)
+      )
+    );
+  }
+
+  isInGrid(x, y, z) {
+    return (
+      0 <= x && x < this.#width &&
+      0 <= y && y < this.#height &&
+      0 <= z && z < this.#depth
+    );
+  }
+
+  setCell(cell, x, y, z) {
+    if(!this.isInGrid(x, y, z)) {
+      console.error(`領域外に${this.#dataName}をセットできません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    this.#grid[x][y][z] = cell;
+  }
+
+  getCell(x, y, z) {
+    if(!this.isInGrid(x, y, z)) {
+      console.error(`領域外の${this.#dataName}を取得できません(x: ${x}, y: ${y}, z: ${z})`);
+      return;
+    }
+    return this.#grid[x][y][z];
+  }
+}
