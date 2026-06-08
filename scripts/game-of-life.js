@@ -21,6 +21,25 @@ export default class GameOfLife {
     this.engine.blocks.randomize(0.2);
   }
 
+  countNeighborLivingCells(x, y, z) {
+    let numOfLivingCells = 0;
+    for(let dx = -1; dx <= 1; dx++) {
+      for(let dy = -1; dy <= 1; dy++) {
+        for(let dz = -1; dz <= 1; dz++) {
+          if(dx === 0 && dy === 0 & dz === 0) continue;
+          const nx = x + dx;
+          const ny = y + dy;
+          const nz = z + dz;
+          if(!this.engine.blocks.isInField(nx, ny, nz)) continue;
+
+          const blockId = this.engine.blocks.getBlockId(nx, ny, nz);
+          if(blockId === 1) numOfLivingCells++; // id:0を「死」,id:1を「生」とする
+        }
+      }
+    }
+    return numOfLivingCells;
+  }
+
   render() {
     this.engine.render();
   }
