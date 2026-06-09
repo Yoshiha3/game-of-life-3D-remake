@@ -5,21 +5,19 @@ export default class GameOfLife {
   constructor(width, height, depth) {
     this.engine = new Engine(width, height, depth);
 
-    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    this.directionalLight.position.set(-0.5, 0.2, -1);
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    this.directionalLight.position.set(0.5, 0.4, 1);
     this.engine.scene.add(this.directionalLight);
+    this.engine.scene.add(new THREE.AmbientLight(0xffffff, 0.3));
 
     this.engine.cameraController.setCenter(width / 2, height / 2, depth / 2);
     this.engine.cameraController.setRadius(Math.max(width, height, depth) * 2);
     this.engine.cameraController.setPhi(Math.PI / 4);
-    this.engine.cameraController.setTheta(Math.PI * 5 / 4);
     this.engine.cameraController.updateCamera();
 
-    this.engine.blocks.randomize(0.2);
-
     // 生きている隣接セルの数による「誕生」と「生存」のルール
-    this.birthRule = [5];
-    this.survivalRule = [5, 7, 8];
+    this.birthRule = [3];
+    this.survivalRule = [3, 4];
   }
 
   startAnimation() {
