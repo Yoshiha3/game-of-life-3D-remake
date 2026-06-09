@@ -22,13 +22,12 @@ export default class GameOfLife {
     this.survivalRule = [5, 7, 8];
   }
 
-  start(fps = 4) {
-    setInterval(() => this.loop(), 1000 / fps);
+  startAnimation() {
+    this.engine.renderer.setAnimationLoop((time) => this.render(time));
   }
 
-  loop() {
-    this.update();
-    this.render();
+  startUpdate(fps = 4) {
+    setInterval(() => this.update(), 1000 / fps);
   }
 
   update() {

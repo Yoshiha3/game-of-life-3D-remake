@@ -5,4 +5,5 @@ const gameOfLife = new GameOfLife(10, 10, 10);
 
 gameOfLife.engine.blocks.setBlock(1, 0, 0, 0);
 
-gameOfLife.start();
+gameOfLife.startUpdate();
+gameOfLife.startAnimation();
