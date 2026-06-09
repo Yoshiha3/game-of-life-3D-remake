@@ -94,6 +94,19 @@ class Grid3D {
     );
   }
 
+  clone() {
+    const clone = new Grid3D(this.#dataName, this.#width, this.#height, this.#depth);
+    for(let x = 0; x < this.#width; x++) {
+      for(let y = 0; y < this.#height; y++) {
+        for(let z = 0; z < this.#depth; z++) {
+          const cell = this.getCell(x, y, z);
+          clone.setCell(cell, x, y, z);
+        }
+      }
+    }
+    return clone;
+  }
+
   getWidth() {
     return this.#width;
   }
