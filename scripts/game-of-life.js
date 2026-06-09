@@ -20,6 +20,16 @@ export default class GameOfLife {
     this.survivalRule = [3, 4];
   }
 
+  createCube(startX, startY, startZ, size) {
+    for(let x = startX; x < startX + size; x++) {
+      for(let y = startY; y < startY + size; y++) {
+        for(let z = startZ; z < startZ + size; z++) {
+          this.engine.blocks.setBlock(1, x, y, z);
+        }
+      }
+    }
+  }
+
   startAnimation() {
     this.engine.renderer.setAnimationLoop((time) => this.render(time));
   }
