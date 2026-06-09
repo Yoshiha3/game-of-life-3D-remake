@@ -22,6 +22,15 @@ export default class GameOfLife {
     this.survivalRule = [5, 7, 8];
   }
 
+  start(fps = 4) {
+    setInterval(() => this.loop(), 1000 / fps);
+  }
+
+  loop() {
+    this.update();
+    this.render();
+  }
+
   update() {
     const previousBlockIds = this.engine.blocks.blockIds.clone();
     const width = previousBlockIds.getWidth();
