@@ -77,7 +77,9 @@ export default class GameOfLife {
     return numOfLivingCells;
   }
 
-  render() {
+  render(time) {
+    this.engine.cameraController.setTheta(time * 0.0005);
+    this.engine.cameraController.updateCamera();
     this.engine.render();
   }
 }
