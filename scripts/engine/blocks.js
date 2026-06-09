@@ -3,13 +3,11 @@ import * as THREE from 'three';
 export default class Blocks {
   #blockSize = 1;
   #scene;
-  #blockIds;
-  #blockMeshes;
   #blockTypes;
   constructor(scene, width, height, depth) {
     this.#scene = scene;
-    this.#blockIds = new Grid3D("ブロックID", width, height, depth);
-    this.#blockMeshes = new Grid3D("ブロックメッシュ", width, height, depth, null);
+    this.blockIds = new Grid3D("ブロックID", width, height, depth);
+    this.blockMeshes = new Grid3D("ブロックメッシュ", width, height, depth, null);
 
     this.#blockTypes = {
       1: {
@@ -20,15 +18,15 @@ export default class Blocks {
   }
 
   getWidth() {
-    return this.#blockIds.getWidth();
+    return this.blockIds.getWidth();
   }
 
   getHeight() {
-    return this.#blockIds.getHeight();
+    return this.blockIds.getHeight();
   }
 
   getDepth() {
-    return this.#blockIds.getDepth();
+    return this.blockIds.getDepth();
   }
 
   randomize(rate) {
@@ -42,7 +40,7 @@ export default class Blocks {
   }
 
   isInField(x, y, z) {
-    return this.#blockIds.isInGrid(x, y, z);
+    return this.blockIds.isInGrid(x, y, z);
   }
 
   setBlock(id, x, y, z) {
@@ -51,15 +49,15 @@ export default class Blocks {
       return;
     }
 
-    if(id === this.#blockIds.getCell(x, y, z)) return;
+    if(id === this.blockIds.getCell(x, y, z)) return;
 
-    const oldMesh = this.#blockMeshes.getCell(x, y, z);
+    const oldMesh = this.blockMeshes.getCell(x, y, z);
     if(oldMesh) {
       oldMesh.removeFromParent();
-      this.#blockMeshes.setCell(null, x, y, z);
+      this.blockMeshes.setCell(null, x, y, z);
     }
 
-    this.#blockIds.setCell(id, x, y, z);
+    this.blockIds.setCell(id, x, y, z);
 
     if(id === 0) return; // id:0は空気
 
@@ -70,7 +68,7 @@ export default class Blocks {
       this.#blockSize * y,
       this.#blockSize * z
     );
-    this.#blockMeshes.setCell(mesh, x, y, z);
+    this.blockMeshes.setCell(mesh, x, y, z);
 
     this.#scene.add(mesh);
   }
