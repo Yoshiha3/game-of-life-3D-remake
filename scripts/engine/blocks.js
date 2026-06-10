@@ -15,6 +15,24 @@ export default class Blocks {
         material: new THREE.MeshStandardMaterial({color: 0xffffff})
       }
     }
+
+    for(let x = 0; x < this.getWidth(); x++) {
+      for(let y = 0; y < this.getHeight(); y++) {
+        for(let z = 0; z < this.getDepth(); z++) {
+          const blockType = this.#blockTypes[1];
+          const mesh = new THREE.Mesh(blockType.geometry, blockType.material);
+          mesh.visible = false;
+          mesh.position.set(
+            this.#blockSize * x,
+            this.#blockSize * y,
+            this.#blockSize * z
+          );
+          this.blockMeshes.setCell(mesh, x, y, z);
+
+          this.#scene.add(mesh);
+        }
+      }
+    }
   }
 
   getWidth() {
@@ -49,28 +67,10 @@ export default class Blocks {
       return;
     }
 
-    if(id === this.blockIds.getCell(x, y, z)) return;
-
-    const oldMesh = this.blockMeshes.getCell(x, y, z);
-    if(oldMesh) {
-      oldMesh.removeFromParent();
-      this.blockMeshes.setCell(null, x, y, z);
-    }
-
     this.blockIds.setCell(id, x, y, z);
-
-    if(id === 0) return; // id:0は空気
-
-    const blockType = this.#blockTypes[id];
-    const mesh = new THREE.Mesh(blockType.geometry, blockType.material);
-    mesh.position.set(
-      this.#blockSize * x,
-      this.#blockSize * y,
-      this.#blockSize * z
-    );
-    this.blockMeshes.setCell(mesh, x, y, z);
-
-    this.#scene.add(mesh);
+    const mesh = this.blockMeshes.getCell(x, y, z);
+    const isVisible = id === 1;
+    mesh.visible = isVisible;
   }
 }
 
