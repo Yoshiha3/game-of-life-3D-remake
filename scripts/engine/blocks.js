@@ -13,6 +13,10 @@ export default class Blocks {
       1: {
         geometry: new THREE.BoxGeometry(this.#blockSize, this.#blockSize, this.#blockSize),
         material: new THREE.MeshStandardMaterial({color: 0xffffff})
+      },
+      2: {
+        geometry: new THREE.BoxGeometry(this.#blockSize, this.#blockSize, this.#blockSize),
+        material: new THREE.MeshStandardMaterial({color: 0xff00ff})
       }
     }
   }

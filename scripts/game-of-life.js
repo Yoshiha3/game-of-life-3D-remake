@@ -52,9 +52,10 @@ export default class GameOfLife {
           let setId = 0;
           switch(cell) {
             case 0:
-              if(this.birthRule.includes(numOfNeighborLivingCells)) setId = 1; // 誕生
+              if(this.birthRule.includes(numOfNeighborLivingCells)) setId = 2; // 誕生
               break;
             case 1:
+            case 2:
               if(this.survivalRule.includes(numOfNeighborLivingCells)) setId = 1; // 生存
               break;
             default:
@@ -78,7 +79,7 @@ export default class GameOfLife {
           if(!blockIds.isInGrid(nx, ny, nz)) continue;
 
           const blockId = blockIds.getCell(nx, ny, nz);
-          if(blockId === 1) numOfLivingCells++; // id:0を「死」,id:1を「生」とする
+          if(blockId === 1 || blockId === 2) numOfLivingCells++; // id:0を「死」,id:1を「生」とする
         }
       }
     }

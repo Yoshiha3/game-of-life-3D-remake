@@ -13,5 +13,5 @@ gameOfLife.createCube(
   Math.floor(depth / 2) - Math.floor(cubeSize / 2),
   cubeSize
 )
-gameOfLife.startUpdate(10);
+gameOfLife.startUpdate(1);
 gameOfLife.startAnimation();
