@@ -18,6 +18,8 @@ export default class GameOfLife {
     // 生きている隣接セルの数による「誕生」と「生存」のルール
     this.birthRule = [3];
     this.survivalRule = [3, 4];
+
+    this.livingCellIds = [1, 2];
   }
 
   createCube(startX, startY, startZ, size) {
@@ -79,7 +81,7 @@ export default class GameOfLife {
           if(!blockIds.isInGrid(nx, ny, nz)) continue;
 
           const blockId = blockIds.getCell(nx, ny, nz);
-          if(blockId === 1 || blockId === 2) numOfLivingCells++; // id:0を「死」,id:1を「生」とする
+          if(this.livingCellIds.includes(blockId)) numOfLivingCells++;
         }
       }
     }
