@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 # Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
-permissions:
+permissions:workf
   contents: read
   pages: write
   id-token: write
